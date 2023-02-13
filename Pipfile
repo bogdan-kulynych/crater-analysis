@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+torchgeo = "*"
+fire = "*"
+pyyaml = "==5.4.0"
+torchmetrics = "*"
+
+[dev-packages]
+black = "*"
+ipynb = "*"
+torch-tb-profiler = "*"
+tensorboard = "*"
+
+[requires]
+python_version = "3.8"
