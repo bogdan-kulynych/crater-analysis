@@ -52,9 +52,13 @@ class ClassificationTask(pl.LightningModule):
         if weights and weights is not True:
             if os.path.exists(weights):
                 _, state_dict = utils.extract_backbone(weights)
+            elif weights == "imagenet":
+                weights = True
+            elif weights == "random":
+                weights = False
             else:
                 state_dict = get_weight(weights).get_state_dict(progress=True)
-            self.model = utils.load_state_dict(self.model, state_dict)
+                self.model = utils.load_state_dict(self.model, state_dict)
 
         num_layers_to_finetune = self.hyperparams["num_layers_to_finetune"]
         if num_layers_to_finetune is not None:
