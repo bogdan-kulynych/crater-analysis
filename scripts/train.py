@@ -51,11 +51,10 @@ def train(
 ):
     train_data_path = "data/train/"
     test_data_path = "data/test/"
-    crop_size = int(crop_prop * base_size)
 
     train_transforms = [
         transforms.Resize(base_size),
-        transforms.RandomRotation(20),
+        transforms.RandomRotation(45),
         transforms.RandomHorizontalFlip(),
         transforms.RandomVerticalFlip(),
         transforms.ToTensor(),
@@ -127,15 +126,15 @@ def train(
     )
 
     if model_name == "resnet18":
-        if weights is None:
+        if weights is None or weights == "sentinel2":
             weights = "ResNet18_Weights.SENTINEL2_RGB_SECO"
 
     elif model_name == "resnet50":
-        if weights is None:
+        if weights is None or weights == "sentinel2":
             weights = "ResNet50_Weights.SENTINEL2_RGB_SECO"
 
     elif model_name == "vit_small_patch16_224":
-        if weights is None:
+        if weights is None or weights == "sentinel2":
             weights = "ViTSmall16_Weights.SENTINEL2_ALL_SECO"
 
     task = ClassificationTask(

@@ -39,26 +39,25 @@ class ClassificationTask(pl.LightningModule):
 
     def config_model(self) -> None:
         """Configures the model based on kwargs parameters passed to the constructor."""
+
         # Create model
         weights = self.hyperparams["weights"]
+        imagenet_pretrained = weights == "imagenet"
         self.model = timm.create_model(
             self.hyperparams["model"],
             num_classes=self.hyperparams["num_classes"],
             in_chans=self.hyperparams["in_channels"],
-            pretrained=weights is True,
+            pretrained=imagenet_pretrained,
         )
 
         # Load weights
-        if weights and weights is not True:
-            if os.path.exists(weights):
-                _, state_dict = utils.extract_backbone(weights)
-            elif weights == "imagenet":
-                weights = True
-            elif weights == "random":
-                weights = False
-            else:
+        try:
+            if not imagenet_pretrained:
                 state_dict = get_weight(weights).get_state_dict(progress=True)
                 self.model = utils.load_state_dict(self.model, state_dict)
+                print(f"Loaded {weights} successfully.")
+        except:
+            pass
 
         num_layers_to_finetune = self.hyperparams["num_layers_to_finetune"]
         if num_layers_to_finetune is not None:
