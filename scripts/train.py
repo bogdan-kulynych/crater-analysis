@@ -40,8 +40,7 @@ def train(
     model_name="resnet18",
     weights=None,
     batch_size=64,
-    base_size=256,
-    crop_prop=1.0,
+    base_size=64,
     learning_rate=1e-4,
     learning_rate_schedule_patience=5,
     weight_decay=0,
@@ -56,14 +55,13 @@ def train(
 
     train_transforms = [
         transforms.Resize(base_size),
-        transforms.RandomCrop(crop_size),
         transforms.RandomRotation(20),
         transforms.RandomHorizontalFlip(),
         transforms.RandomVerticalFlip(),
         transforms.ToTensor(),
     ]
     test_transforms = [
-        transforms.Resize(crop_size),
+        transforms.Resize(base_size),
         transforms.ToTensor(),
     ]
 
