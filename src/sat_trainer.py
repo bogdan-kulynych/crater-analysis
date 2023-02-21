@@ -259,13 +259,13 @@ class ClassificationTask(pl.LightningModule):
             optimizer = torch.optim.AdamW(
                 self.model.parameters(),
                 lr=self.hyperparams["learning_rate"],
-                # weight_decay=self.hyperparams["weight_decay"],
+                weight_decay=self.hyperparams["weight_decay"],
             )
         elif self.hyperparams["optimizer"] == "SGD":
             optimizer = torch.optim.SGD(
                 self.model.parameters(),
                 lr=self.hyperparams["learning_rate"],
-                # weight_decay=self.hyperparams["weight_decay"],
+                weight_decay=self.hyperparams["weight_decay"],
             )
         return {
             "optimizer": optimizer,

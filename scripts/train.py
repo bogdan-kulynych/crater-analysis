@@ -41,7 +41,7 @@ def train(
     weights=None,
     batch_size=64,
     base_size=256,
-    crop_size=224,
+    crop_prop=1.0,
     learning_rate=1e-4,
     learning_rate_schedule_patience=5,
     weight_decay=0,
@@ -52,6 +52,7 @@ def train(
 ):
     train_data_path = "data/train/"
     test_data_path = "data/test/"
+    crop_size = int(crop_prop * base_size)
 
     train_transforms = [
         transforms.Resize(base_size),
@@ -59,7 +60,6 @@ def train(
         transforms.RandomRotation(20),
         transforms.RandomHorizontalFlip(),
         transforms.RandomVerticalFlip(),
-        transforms.ColorJitter(0.1, 0.1, 0.1, 0.1),
         transforms.ToTensor(),
     ]
     test_transforms = [
